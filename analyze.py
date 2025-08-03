@@ -10,6 +10,10 @@ import chess
 import chess.engine
 from typing import Tuple, List
 from dotenv import load_dotenv
+from board_recognition import ChessBoardRecognizer
+
+# Load environment variables
+load_dotenv()
 
 def get_stockfish_path() -> str:
     """Get Stockfish path from environment or use default."""
@@ -98,7 +102,10 @@ Chess Move Analyzer - Usage Examples:
 4. Analyze position and move:
    python analyze.py "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1" e5
 
-5. Show this help:
+5. Analyze chess.com screenshot:
+   python analyze.py --image board.png
+
+6. Show this help:
    python analyze.py --help
 """)
 
@@ -121,6 +128,16 @@ def main():
     elif len(sys.argv) == 2 and sys.argv[1] in ['--help', '-h', 'help']:
         print_help()
         return
+    elif len(sys.argv) == 3 and sys.argv[1] == '--image':
+        # Analyze screenshot
+        try:
+            recognizer = ChessBoardRecognizer()
+            fen = recognizer.analyze_screenshot(sys.argv[2])
+            board = chess.Board(fen)
+            move = None
+        except Exception as e:
+            print(f"❌ Error analyzing screenshot: {e}")
+            return
     elif is_valid_fen(sys.argv[1]):
         # FEN string provided
         fen = sys.argv[1]
