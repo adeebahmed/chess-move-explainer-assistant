@@ -1,0 +1,5 @@
+Bottom color (RGB): [144.47619048  94.58095238  57.62857143]
+R/G ratio: 1.51
+R/B ratio: 2.46
+G/B ratio: 1.61
+Brightness: 98.9
